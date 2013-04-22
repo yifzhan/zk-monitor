@@ -6,4 +6,15 @@
 		<layout class=""></layout>
 	</appender>
 
+	<appender name="rollingFile" class="org.apache.log4j.RollingFileAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="【AppLog】 %d{ABSOLUTE} %-5p %m%n" />
+		</layout>
+	</appender>
+
+	<root>
+		<level value="DEBUG"></level>
+		<appender-ref ref="console" />
+	</root>
+
 </log4j:configuration>
