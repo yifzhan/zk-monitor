@@ -5,6 +5,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 <configuration>
 	<typeAliases>
-		<typeAlias type="" alias="" />
+		<typeAlias type="com.zhanyf.hadoop.zk.domain.Settings" alias="Settings" />
 	</typeAliases>
 </configuration>
