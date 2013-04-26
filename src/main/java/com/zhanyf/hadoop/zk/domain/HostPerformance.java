@@ -3,7 +3,7 @@ package com.zhanyf.hadoop.zk.domain;
 import java.util.Map;
 
 public class HostPerformance {
-	private int id;
+	private int ip;
 	private String hostname;
 	private String cpuUsage;
 	private String load;
@@ -11,12 +11,12 @@ public class HostPerformance {
 
 	private Map<String, String> diskUsageMap;
 
-	public int getId() {
-		return id;
+	public int getIp() {
+		return ip;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setIp(int ip) {
+		this.ip = ip;
 	}
 
 	public String getHostname() {

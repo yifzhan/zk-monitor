@@ -12,8 +12,10 @@ $(function() {
 		$('#mainPanel').attr('src', url);
 	});
 
-	$('#contact').popover({
-		placement : 'bottom',
-		content : '作者：詹益峰 qq：758297924'
+	$('#contact').click(function() {
+		$('#contact_info').modal({
+			show : true
+		});
 	});
+
 });

@@ -1,5 +1,8 @@
 package com.zhanyf.hadoop.zk.monitor.job.task;
 
+import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,11 +21,13 @@ public class HostPerformanceCollectTask implements Runnable {
 	private String ip;
 	private AlarmSettings alarmSettings;
 	private Cluster cluster;
+	private final CountDownLatch latch;
 
-	public HostPerformanceCollectTask(String ip, Object object, Cluster cluster) {
+	public HostPerformanceCollectTask(String ip, AlarmSettings alarmSettings, Cluster cluster, CountDownLatch latch) {
 		this.ip = ip;
 		this.alarmSettings = alarmSettings;
 		this.cluster = cluster;
+		this.latch = latch;
 	}
 
 	@Override
@@ -33,9 +38,11 @@ public class HostPerformanceCollectTask implements Runnable {
 			GlobalInstance.putHostPerformance(ip, hostPerformance);
 			LOGGER.info("HostPerformanceEntity collect of #" + cluster.getClusterName() + "-" + ip);
 		} catch (SSHException e) {
-
-		} catch(Throwable t) {
-			
+			LOGGER.error(e.getMessage(), e);
+		} catch (Throwable t) {
+			LOGGER.error(t.getMessage(), t);
+		} finally {
+			latch.countDown();
 		}
 	}
 }

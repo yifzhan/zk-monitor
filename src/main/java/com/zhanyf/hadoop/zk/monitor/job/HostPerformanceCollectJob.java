@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
@@ -52,8 +53,35 @@ public class HostPerformanceCollectJob implements Runnable {
 				if (clusters.isEmpty()) {
 					LOGGER.warn("当前没有集群需要监控");
 				} else {
+					// 所有机器总数
+					int count = 0;
 					for (Cluster cluster : clusters) {
 						if (cluster != null && cluster.getServerList() != null) {
+							count += cluster.getServerList().size();
+						}
+					}
+
+					// 用于等待集群所有机器检测完毕
+					final CountDownLatch latch = new CountDownLatch(count);
+					new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							try {
+								LOGGER.info("Start all cluster HostPerformanceEntity collect");
+								GlobalInstance.timeOfUpdateHostPerformanceSet = new Date().getTime();
+								latch.await();
+								LOGGER.info("Finish all cluster HostPerformanceEntity collect");
+							} catch (InterruptedException e) {
+								LOGGER.error(e.getMessage(), e);
+							}
+
+						}
+					}).start();
+
+					for (Cluster cluster : clusters) {
+						if (cluster != null && cluster.getServerList() != null) {
+
 							for (String server : cluster.getServerList()) {
 								server = StringUtils.trimToEmpty(server);
 								if (StringUtils.isBlank(server))
@@ -61,14 +89,13 @@ public class HostPerformanceCollectJob implements Runnable {
 								String ip = server.split(":")[0];
 								ThreadPoolManager
 										.addTaskToZkServerPerformanceCollectExec(new HostPerformanceCollectTask(ip,
-												null, cluster));
+												null, cluster, latch));
 							}
 						}
-
 					}
+
 				}
-				LOGGER.info("Finish all cluster HostPerformanceEntity collect");
-				GlobalInstance.timeOfUpdateHostPerformanceSet = new Date().getTime();
+
 				try {
 					TimeUnit.MINUTES.sleep(SystemConstantUtil.MINS_RATE_OF_COLLECT_HOST_PERFORMANCE);
 				} catch (InterruptedException e) {

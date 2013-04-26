@@ -12,7 +12,7 @@ import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
 
 public class SSH2UtilTest {
-	private static final String HOST_NAME = "192.168.16.202";
+	private static final String HOST_NAME = "192.168.16.241";
 	private static final int HOST_PORT = 22;
 
 	private static final String CMD_DF_LH = "df -lh";

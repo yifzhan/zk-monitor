@@ -59,6 +59,22 @@
 		</div>
 		<hr>
 
+
+		<div id="contact_info" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+			aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">联系方式</h3>
+			</div>
+			<div class="modal-body">
+				<p>作者：梅东</p>
+				<p>qq：758297924</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">关闭</button>
+			</div>
+		</div>
+
 		<footer>
 			<div style="margin: 0 auto; text-align: center;">
 				<p>&copy; 中国电子科技集团 58所 2013</p>

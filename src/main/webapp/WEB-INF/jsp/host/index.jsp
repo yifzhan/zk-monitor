@@ -21,7 +21,7 @@
 		<div style="padding-top: 10px;" id="updateTime">更新时间：${updateTime }</div>
 
 		<div style="padding-top: 5px;">
-			<span> <select id="cluster" type="select" style="width: 150px;">
+			<span> <select id="cluster" type="select" style="width: 180px;">
 					<c:forEach items="${clusterMap }" var="item">
 						<c:choose>
 							<c:when test="${item.key == cluster.clusterId}">
@@ -40,21 +40,23 @@
 			<table class="table table-striped table-bordered" style="font-size: 15px;">
 				<thead>
 					<tr>
-						<td>主机IP</td>
-						<td>cpu使用率</td>
-						<td>内存使用率</td>
-						<td>磁盘使用率</td>
+						<td style="text-align: center; width: 200px;">主机IP</td>
+						<td style="text-align: center;">cpu使用率</td>
+						<td style="text-align: center;">内存使用率</td>
+						<td style="text-align: center;">系统负载</td>
+						<td style="text-align: center;">磁盘使用率</td>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${hostPerformanceMap }" var="item">
 						<tr>
 							<td>${item.key}</td>
-							<td>${item.value.cpuUsage}</td>
-							<td>${item.value.menUsage}</td>
-							<td>${item.value.load}</td>
+							<td style="text-align: right;">${item.value.cpuUsage}</td>
+							<td style="text-align: right;">${item.value.menUsage}</td>
+							<td style="text-align: right;">${item.value.load}</td>
+							<td style="text-align: right;">${item.value.diskusage}</td>
+						</tr>
 					</c:forEach>
-					</tr>
 				</tbody>
 			</table>
 			<div class="pagination pagination-right">
